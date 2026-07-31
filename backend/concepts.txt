@@ -1,0 +1,11 @@
+<--------------------------------  why should we separate API from frontend ? -----------------------------------------> 
+
+1- React --> Your Backend --> (API key stored here) --> NewsAPI.
+2- In this way users cannot see your API key and can't exhaust its limit.
+3- Imagine 1000 users came to your app then backend will call the api only once and store its result (caching).
+
+
+
+~ backend ko frontend ke muqable me zada hit kiya jayega api ki waja se.
+~ This application will be connected with Mongodb database and will store your notes permannetly. 
+~ rather than storing temporarily on local host (browser).
