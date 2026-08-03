@@ -9,7 +9,7 @@ const UserSchema = new Schema ({
   email : {
     type : String,
     required : true,
-    unique : true
+    unique : true    // Mongoose ne Mongodb se kaha unique index bnado 
   },
   password : {
     type : String,
@@ -22,4 +22,6 @@ const UserSchema = new Schema ({
 })
 
 // mongoose.model('name','schema')
-module.exports = mongoose.model("user",UserSchema);
+const User = mongoose.model("user",UserSchema);
+User.createIndexes();
+module.exports = User;
