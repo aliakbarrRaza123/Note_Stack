@@ -14,5 +14,5 @@ const connectToMongo = () =>
     });
 };
 
-// export hojayega function
+// export hojayega function using commonJS
 module.exports = connectToMongo;

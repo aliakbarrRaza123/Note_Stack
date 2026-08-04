@@ -17,7 +17,7 @@
 
 
 <-------------------------  End point   ---------------------------> 
-1- Endpoint ek specific URL hota hai jahan frontend ya koi client backend se request bhejta hai aur   response leta hai.
+1- Endpoint ek specific URL hota hai jahan frontend/client request bhejta hai aur response leta hai.
 
 
 <-------------------------  Get/Post Request  ---------------------------> 
@@ -27,3 +27,32 @@
 4- Phir server wapis browser ya thunder client ko response bhejta hai. 
 5- Get Request is to fetch the data.
 6- Post Request is to save the data.
+
+
+<-------------------------  Hashing  ---------------------------> 
+1- we passed our password through a hash function which encrypts our password.
+2- client gives username and password to backend and it converts the password to hash.
+3- After that backend verifies the hash password from database.
+4- if some hacker hacks the database and gets password it will find the hashed password not real.
+5- if he gives that hash password to backend another hash generates,
+5- which will not be similar to the hash of database. 
+
+
+<-------------------------  Limitation of Hashing  ---------------------------> 
+1- intelligent hackers have rainbow tables which contains the hashes of all common passwords.
+2- when the got hashes they matches it from the table, if matched they got the passwords.
+
+
+<-------------------------  Salt Technique  ---------------------------> 
+1- Salt ek random string hoti hai jo password ke sath hash karne se pehle add ki jati hai.
+2- hacker ki rainbow table me kbhi ye hash ni para hoga usko guess marne parenge.
+3- guess karega password phr salt add krega hash bnayega so next to impossible.
+4- Salt technique helps to prevent the limitation of hashing.
+
+
+<-------------------------  Indexes  ---------------------------> 
+1- indexes are used to search data efficiently in approx O(log n).
+2- every index consumes memory or storage.
+3- that is why we cant make everything an index.
+4- It used B-tree data structure.
+5- without index we have to scan entire database to find email or password etc.

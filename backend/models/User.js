@@ -9,7 +9,7 @@ const UserSchema = new Schema ({
   email : {
     type : String,
     required : true,
-    unique : true    // Mongoose ne Mongodb se kaha unique index bnado 
+    // unique : true    // Mongoose ne Mongodb se kaha unique index bnado 
   },
   password : {
     type : String,
