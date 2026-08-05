@@ -13,7 +13,7 @@ app.use(express.json());
 app.use('/api/auth',require('./routes/auth'))
 app.use('/api/notes',require('./routes/notes'))
 
-// this app starts a server and will listen on port 3000
+// this app starts a server and will listen on port 5000
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
 });
