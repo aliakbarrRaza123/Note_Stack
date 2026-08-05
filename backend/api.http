@@ -1,4 +1,4 @@
-# <--------------------- Testing Route 1 ---------------------- > 
+# <--------------------- Testing Route 1 (auth.js) ---------------------- > 
 # POST http://localhost:5000/api/auth/createuser
 # Content-Type: application/json
 
@@ -10,7 +10,7 @@
 # }
 
 
-# <--------------------- Testing Route 2 ---------------------- > 
+# <--------------------- Testing Route 2 (auth.js) ---------------------- > 
 # POST http://localhost:5000/api/auth/login
 # Content-Type: application/json
 
@@ -21,7 +21,7 @@
 # }
 
 
-# <--------------------- Testing Route 3 ---------------------- > 
+# <--------------------- Testing Route 3 (auth.js) ---------------------- > 
 # POST http://localhost:5000/api/auth/getuser
 # Content-Type: application/json
 # auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmE3Mzk2ZGRlZDg4OTFmMzk0ZDkzNjk2In0sImlhdCI6MTc4NTk2MDgwOX0.4bISNlhG0-ohsFXWr_xrcLrmcbdzOYV9KrV7jKSNGOk
@@ -29,4 +29,28 @@
 # // body
 # {
 
+# }
+
+
+# <--------------------- Testing Route 1 (notes.js) ---------------------- > 
+# GET http://localhost:5000/api/notes/fetchallnotes
+# Content-Type: application/json
+# auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmE3Mzk2ZGRlZDg4OTFmMzk0ZDkzNjk2In0sImlhdCI6MTc4NTk2MDgwOX0.4bISNlhG0-ohsFXWr_xrcLrmcbdzOYV9KrV7jKSNGOk
+
+# // body
+# {
+
+# }
+
+
+# <--------------------- Testing Route 2 (notes.js) ---------------------- > 
+# POST http://localhost:5000/api/notes/addnote
+# Content-Type: application/json
+# auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmE3Mzk2ZGRlZDg4OTFmMzk0ZDkzNjk2In0sImlhdCI6MTc4NTk2MDgwOX0.4bISNlhG0-ohsFXWr_xrcLrmcbdzOYV9KrV7jKSNGOk
+
+# // body
+# {
+#   "title" : "Programming Fundamentals",
+#   "description" : "It includes learning basic concepts of programming",
+#   "tag" : "Programming"
 # }
