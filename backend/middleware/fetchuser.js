@@ -14,14 +14,15 @@ const fetchuser = (req, res, next) => {
   }
   try 
   {
-    // it verifies that the token is not tamper and returns the payload(json).
+    // it verifies that the token is not tamper and returns the decoded payload(json).
     const data = jwt.verify(token, JWT_SECRET);
     // Attach user payload to request
     req.user = data.user;
     // go to route handler my work is done.
     next();  
   } 
-  catch (error) {
+  catch (error) 
+  {
     return (res.status(401).json({
       success: false,
       message: "Please authenticate using a valid token",

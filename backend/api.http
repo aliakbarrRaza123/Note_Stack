@@ -1,16 +1,16 @@
-# <--------------------- Testing Route 1 (auth.js) ---------------------- > 
+# <--------------------- Testing Route 1 (createuser) ---------------------- > 
 # POST http://localhost:5000/api/auth/createuser
 # Content-Type: application/json
 
 # // body
 # {
-#   "name" : "hamza",
-#   "email" : "hamza124@gmail.com",
+#   "name" : "abass",
+#   "email" : "abass765@gmail.com",
 #   "password" : "12345"
 # }
 
 
-# <--------------------- Testing Route 2 (auth.js) ---------------------- > 
+# <--------------------- Testing Route 2 (login) ---------------------- > 
 # POST http://localhost:5000/api/auth/login
 # Content-Type: application/json
 
@@ -21,7 +21,7 @@
 # }
 
 
-# <--------------------- Testing Route 3 (auth.js) ---------------------- > 
+# <--------------------- Testing Route 3 (getuser) ---------------------- > 
 # POST http://localhost:5000/api/auth/getuser
 # Content-Type: application/json
 # auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmE3Mzk2ZGRlZDg4OTFmMzk0ZDkzNjk2In0sImlhdCI6MTc4NTk2MDgwOX0.4bISNlhG0-ohsFXWr_xrcLrmcbdzOYV9KrV7jKSNGOk
@@ -32,7 +32,7 @@
 # }
 
 
-# <--------------------- Testing Route 1 (notes.js) ---------------------- > 
+# <--------------------- Testing Route 1 (fetchallnotes) ---------------------- > 
 # GET http://localhost:5000/api/notes/fetchallnotes
 # Content-Type: application/json
 # auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmE3Mzk2ZGRlZDg4OTFmMzk0ZDkzNjk2In0sImlhdCI6MTc4NTk2MDgwOX0.4bISNlhG0-ohsFXWr_xrcLrmcbdzOYV9KrV7jKSNGOk
@@ -43,14 +43,38 @@
 # }
 
 
-# <--------------------- Testing Route 2 (notes.js) ---------------------- > 
+# <--------------------- Testing Route 2 (addnote) ---------------------- > 
 # POST http://localhost:5000/api/notes/addnote
 # Content-Type: application/json
 # auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmE3Mzk2ZGRlZDg4OTFmMzk0ZDkzNjk2In0sImlhdCI6MTc4NTk2MDgwOX0.4bISNlhG0-ohsFXWr_xrcLrmcbdzOYV9KrV7jKSNGOk
 
 # // body
 # {
-#   "title" : "Programming Fundamentals",
-#   "description" : "It includes learning basic concepts of programming",
-#   "tag" : "Programming"
+#   "title" : "Babar Azam",
+#   "description" : "Babar Azam is the stylish batsman and captain of pakistan cricket team",
+#   "tag" : "Cricket"
+# }
+
+
+# <--------------------- Testing Route 3 (updatenote) ---------------------- > 
+# PUT http://localhost:5000/api/notes/updatenote/6a7452ba9afd382f0eda342f
+# Content-Type: application/json
+# auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmE3Mzk2ZGRlZDg4OTFmMzk0ZDkzNjk2In0sImlhdCI6MTc4NTk2MDgwOX0.4bISNlhG0-ohsFXWr_xrcLrmcbdzOYV9KrV7jKSNGOk
+
+# // body
+# {
+#   "title" : "Babar Azam Updated",
+#   "description" : "Babar Azam is a stylish batsman",
+#   "tag" : "Cricket"
+# }
+
+
+# <--------------------- Testing Route 4 (deletenote) ---------------------- > 
+# DELETE http://localhost:5000/api/notes/deletenote/6a7452ba9afd382f0eda342f
+# Content-Type: application/json
+# auth-token:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmE3Mzk2ZGRlZDg4OTFmMzk0ZDkzNjk2In0sImlhdCI6MTc4NTk2MDgwOX0.4bISNlhG0-ohsFXWr_xrcLrmcbdzOYV9KrV7jKSNGOk
+
+# // body
+# {
+
 # }
