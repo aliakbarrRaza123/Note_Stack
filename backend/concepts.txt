@@ -56,3 +56,6 @@
 3- that is why we cant make everything an index.
 4- It used B-tree data structure.
 5- without index we have to scan entire database to find email or password etc.
+
+
+
