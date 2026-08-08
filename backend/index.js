@@ -15,5 +15,5 @@ app.use('/api/notes',require('./routes/notes'))
 
 // this app starts a server and will listen on port 5000
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
+  console.log(`Note_Stack backend listening on port http://localhost:${port}`);
 });

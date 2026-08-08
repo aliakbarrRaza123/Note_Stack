@@ -1,48 +1,76 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          Note_Stack
-        </Link>
+        <NavLink className="navbar-brand fw-bold" to="/">
+          📝 Note_Stack
+        </NavLink>
+
+        {/* Mobile Toggle */}
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <div className="collapse navbar-collapse" id="navbarContent">
+
+          {/* Navigation Links */}
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <NavLink
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+                to="/"
+              >
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about">
+              <NavLink
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+                to="/about"
+              >
                 About
-              </Link>
+              </NavLink>
             </li>
           </ul>
-          <form className="d-flex" role="search">
+
+          {/* Search */}
+          <form className="d-flex me-3" role="search">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Search"
-              aria-label="Search"
+              placeholder="Search notes..."
+              aria-label="Search notes"
             />
-            <button className="btn btn-outline-success" type="submit">
+            <button className="btn btn-light" type="submit">
               Search
             </button>
           </form>
+
+          {/* Authentication */}
+          <div className="d-flex gap-2">
+            <NavLink to="/login" className="btn btn-outline-light">
+              Login
+            </NavLink>
+            
+            <NavLink to="/signup" className="btn btn-outline-primary">
+              Sign Up
+            </NavLink>
+          </div>
         </div>
       </div>
     </nav>
