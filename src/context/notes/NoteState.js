@@ -26,7 +26,7 @@ const NoteState = (props) => {
         console.log(data.message);
       }
     } 
-    catch (error) {
+    catch(error) {
       console.error("Error fetching notes:", error);
     }
   };

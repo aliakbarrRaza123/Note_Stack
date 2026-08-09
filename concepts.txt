@@ -1,3 +1,2 @@
 <--------------------------------   Context API  --------------------------------------->
 The React Context API is a built-in feature in the React library that allows you to manage and share states globally across your component tree without any prop drilling.
-
