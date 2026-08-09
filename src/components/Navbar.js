@@ -1,7 +1,17 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import AuthContext from "../context/auth/authContext";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isLoggedIn, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -9,7 +19,6 @@ export default function Navbar() {
           📝 Note_Stack
         </NavLink>
 
-        {/* Mobile Toggle */}
         <button
           className="navbar-toggler"
           type="button"
@@ -23,8 +32,6 @@ export default function Navbar() {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarContent">
-
-          {/* Navigation Links */}
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <NavLink
@@ -48,28 +55,39 @@ export default function Navbar() {
             </li>
           </ul>
 
-          {/* Search */}
-          <form className="d-flex me-3" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search notes..."
-              aria-label="Search notes"
-            />
-            <button className="btn btn-light" type="submit">
-              Search
-            </button>
-          </form>
+          {isLoggedIn && (
+            <form className="d-flex me-3" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search notes..."
+                aria-label="Search notes"
+              />
+              <button className="btn btn-light" type="submit">
+                Search
+              </button>
+            </form>
+          )}
 
-          {/* Authentication */}
           <div className="d-flex gap-2">
-            <NavLink to="/login" className="btn btn-outline-light">
-              Login
-            </NavLink>
-            
-            <NavLink to="/signup" className="btn btn-outline-primary">
-              Sign Up
-            </NavLink>
+            {isLoggedIn ? (
+              <button className="btn btn-outline-light" onClick={handleLogout}>
+                Logout
+              </button>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className="btn btn-outline-light"
+                  state={{ from: location }}
+                >
+                  Login
+                </NavLink>
+                <NavLink to="/signup" className="btn btn-outline-primary">
+                  Sign Up
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       </div>

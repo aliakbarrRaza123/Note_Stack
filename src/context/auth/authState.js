@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AuthContext from "./AuthContext";
+import AuthContext from "./authContext";
 
 const AuthState = (props) => {
   // token state — source of truth for login status across the app

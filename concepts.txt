@@ -1,2 +1,20 @@
-<--------------------------------   Context API  --------------------------------------->
-The React Context API is a built-in feature in the React library that allows you to manage and share states globally across your component tree without any prop drilling.
+<--------------------------------   Context API   --------------------------------------->
+The React Context API is a built-in feature in the React library that allows you to manage and share states/functions globally across your component tree without any prop drilling.
+
+
+<--------------------------------   AuthContext  --------------------------------------->
+1- login/logout ki state ko manage krne ke liye AuthContext bnaya geya.
+2- State change hote hi React automatically un sab components ko re-render karta hai jo 
+2- AuthContext consume kar rahe hain like :
+-  Home
+-  Navbar 
+
+
+<--------------------------------   NoteContext  --------------------------------------->
+1- Note se related functions like : 
+-  fetchAllNotes()
+-  addNote()
+-  deleteNote()
+-  updateNote()
+
+NoteContext use hota hai in sab ko multiple components ke bheej me share krne ke liye without passing props.

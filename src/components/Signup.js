@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import AuthContext from "../context/auth/authContext";
 
 export default function Signup() 
 {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -38,9 +40,9 @@ export default function Signup()
         }
       );
       const json = await response.json();
-      if (json.success) 
+      if(json.success) 
       {
-        localStorage.setItem("token", json.authtoken);
+        login(json.authtoken);
         navigate("/");
       }
       else {
