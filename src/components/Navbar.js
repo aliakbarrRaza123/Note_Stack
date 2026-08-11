@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import AuthContext from "../context/auth/authContext";
 
@@ -7,16 +7,46 @@ export default function Navbar() {
   const location = useLocation();
   const { isLoggedIn, logout } = useContext(AuthContext);
 
+  // URL se current search query lo (Home isi pe notes filter karta hai)
+  const urlQ = new URLSearchParams(location.search).get("q") || "";
+  const [q, setQ] = useState(urlQ);
+
+  // Browser back/forward ya URL change pe input sync rahe
+  useEffect(() => {
+    setQ(urlQ);
+  }, [urlQ]);
+
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
+  };
+
+  // Typing / clear — empty hone pe automatically saari notes wapas
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setQ(value);
+    // Search bar se text delete → URL se ?q= hatao → Home saari notes fetch karega
+    if (!value.trim()) {
+      navigate("/");
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    // trim extra spaces.
+    const trimmed = q.trim();
+    if (!trimmed) {
+      navigate("/");
+      return;
+    }
+    navigate(`/?q=${encodeURIComponent(trimmed)}`);
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container-fluid">
-        <NavLink className="navbar-brand fw-bold" to="/">
-          📝 Note_Stack
+    <nav className="navbar navbar-expand-lg navbar-dark ns-navbar">
+      <div className="container">
+        <NavLink className="navbar-brand" to="/">
+          Note_Stack
         </NavLink>
 
         <button
@@ -32,6 +62,7 @@ export default function Navbar() {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarContent">
+          {/* Public for everyone — guests learn about the app here */}
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <NavLink
@@ -56,14 +87,20 @@ export default function Navbar() {
           </ul>
 
           {isLoggedIn && (
-            <form className="d-flex me-3" role="search">
+            <form
+              className="d-flex me-lg-3 mb-3 mb-lg-0 gap-2"
+              role="search"
+              onSubmit={handleSearchSubmit}
+            >
               <input
-                className="form-control me-2"
+                className="form-control ns-search-input"
                 type="search"
                 placeholder="Search notes..."
                 aria-label="Search notes"
+                value={q}
+                onChange={handleSearchChange}
               />
-              <button className="btn btn-light" type="submit">
+              <button className="btn ns-btn-search" type="submit">
                 Search
               </button>
             </form>
@@ -71,19 +108,19 @@ export default function Navbar() {
 
           <div className="d-flex gap-2">
             {isLoggedIn ? (
-              <button className="btn btn-outline-light" onClick={handleLogout}>
+              <button className="btn ns-btn-ghost" onClick={handleLogout}>
                 Logout
               </button>
             ) : (
               <>
                 <NavLink
                   to="/login"
-                  className="btn btn-outline-light"
+                  className="btn ns-btn-ghost"
                   state={{ from: location }}
                 >
                   Login
                 </NavLink>
-                <NavLink to="/signup" className="btn btn-outline-primary">
+                <NavLink to="/signup" className="btn ns-btn-accent">
                   Sign Up
                 </NavLink>
               </>

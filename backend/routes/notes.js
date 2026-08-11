@@ -25,6 +25,7 @@ router.get('/fetchallnotes', fetchuser, async (req, res) =>
   }
 });
 
+
 // ROUTE 2 : Create a note using -> POST "/api/notes/addnote".
 // Login required.
 router.post("/addnote", fetchuser,
@@ -94,7 +95,7 @@ router.put('/updatenote/:id', fetchuser, async (req, res) =>
     }
     // jo update request kar raha agar ussi user ka note hai to allow karo
     if (note.user.toString() !== req.user.id) 
-    {
+      {
       return (res.status(401).json({
         success: false,
         message: "Not Allowed"
@@ -139,9 +140,9 @@ router.delete('/deletenote/:id', fetchuser, async (req, res) =>
     }
     // Allow deletion only if user owns this note
     if (note.user.toString() !== req.user.id) 
-    {
-      return (res.status(401).json({
-        success: false,
+      {
+        return (res.status(401).json({
+          success: false,
         message: "Not Allowed"
       }));
     }
@@ -160,6 +161,35 @@ router.delete('/deletenote/:id', fetchuser, async (req, res) =>
     res.status(500).json({
       success: false,
       message: "Internal Server Error"
+    });
+  }
+});
+
+// ROUTE 1.5 : Search notes using -> GET "/api/notes/searchnotes?q=...".
+// Login required.
+router.get("/searchnotes", fetchuser, async (req, res) => 
+{
+  try 
+  {
+    const q = (req.query.q || "").toString().trim();    
+    // If query is empty, behave like fetchallnotes.
+    if (!q) {
+      const notes = await Notes.find({ user: req.user.id });
+      return res.json(notes);
+    }
+    // case-insensitive match karega by making regular expressions.
+    const regex = new RegExp(q, "i");
+    const notes = await Notes.find({
+      user: req.user.id,
+      $or: [{ title: regex }, { description: regex }, { tag: regex }],
+    });
+    return res.json(notes);
+  } 
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
     });
   }
 });

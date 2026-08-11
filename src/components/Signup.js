@@ -1,11 +1,10 @@
-import React, { useState,useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import AuthContext from "../context/auth/authContext";
 
-export default function Signup() 
-{
+export default function Signup() {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login, isLoggedIn } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -13,20 +12,24 @@ export default function Signup()
     cpassword: "",
   });
 
+  // Already logged in → send to Home (notes workspace)
+  if (isLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
+
   // 'e' is an event object it contains all information about the event.
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
+
   // page reload hone se prevent krna hai bcz state reset hojayegi or fetch ni hoga.
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (credentials.password !== credentials.cpassword) 
-    {
+    if (credentials.password !== credentials.cpassword) {
       alert("Passwords do not match");
       return;
     }
-    try 
-    {
+    try {
       const response = await fetch(
         "http://localhost:5000/api/auth/createuser",
         {
@@ -40,24 +43,21 @@ export default function Signup()
         }
       );
       const json = await response.json();
-      if(json.success) 
-      {
-        login(json.authtoken);
+      if (json.success) {
+        login(json.authToken);
         navigate("/");
-      }
-      else {
+      } else {
         alert(json.error || "Something went wrong, please try again");
       }
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Signup error:", error);
       alert("Server error, please try again later");
     }
   };
 
   return (
-    <div className="container py-5" style={{ maxWidth: "480px" }}>
-      <div className="card border-0 shadow-sm p-4">
+    <div className="ns-auth-wrap">
+      <div className="ns-auth-card">
         <h2 className="fw-bold text-center mb-4">Create an Account</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -123,7 +123,7 @@ export default function Signup()
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">
+          <button type="submit" className="btn ns-btn-primary w-100">
             Sign Up
           </button>
 

@@ -149,10 +149,15 @@ router.post("/getuser", fetchuser, async (req, res) =>
 {
   try 
   {
-    // User ID comes from middleware
+    // User ID comes from middleware (user already verified to exist in fetchuser)
     const userId = req.user.id;
-    // Fetch user without password
     const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "User no longer exists. Please log in again.",
+      });
+    }
     res.json({
       success: true,
       user,

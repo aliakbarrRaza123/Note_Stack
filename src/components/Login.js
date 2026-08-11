@@ -1,21 +1,26 @@
 import React, { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation, Navigate } from "react-router-dom";
 import AuthContext from "../context/auth/authContext";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const location = useLocation();
+  const { login, isLoggedIn } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => 
-  {
+  // Already logged in → send to Home (notes workspace)
+  // Browser history mein jo current page hai, usko new page se replace karo.
+  if (isLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try 
-    {
+    try {
       const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -23,10 +28,11 @@ export default function Login() {
       });
       const json = await response.json();
       if (json.success) {
-        login(json.authtoken); // context update — Navbar automatic re-render hoga
-        navigate("/");
-      } 
-      else {
+        login(json.authToken); // context update — Navbar automatic re-render hoga
+        // Return to the page they tried to open, or Home
+        const redirectTo = location.state?.from?.pathname || "/";
+        navigate(redirectTo);
+      } else {
         alert(json.error || "Invalid credentials");
       }
     } catch (error) {
@@ -36,12 +42,14 @@ export default function Login() {
   };
 
   return (
-    <div className="container py-5" style={{ maxWidth: "420px" }}>
-      <div className="card border-0 shadow-sm p-4">
+    <div className="ns-auth-wrap">
+      <div className="ns-auth-card">
         <h2 className="fw-bold text-center mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email address</label>
+            <label htmlFor="email" className="form-label">
+              Email address
+            </label>
             <input
               type="email"
               className="form-control"
@@ -53,7 +61,9 @@ export default function Login() {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">Password</label>
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
             <input
               type="password"
               className="form-control"
@@ -64,7 +74,9 @@ export default function Login() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">Login</button>
+          <button type="submit" className="btn ns-btn-primary w-100">
+            Login
+          </button>
           <p className="text-center text-muted mt-3 mb-0">
             Don't have an account? <Link to="/signup">Sign up here</Link>
           </p>
