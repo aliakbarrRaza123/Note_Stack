@@ -34,7 +34,8 @@ const NoteState = (props) => {
         console.log(data.message);
         setNotes([]);
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Error fetching notes:", error);
       setNotes([]);
     }
@@ -46,6 +47,7 @@ const NoteState = (props) => {
       const url = `http://localhost:5000/api/notes/searchnotes?q=${encodeURIComponent(
         query
       )}`;
+
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -54,14 +56,13 @@ const NoteState = (props) => {
         },
       });
       const data = await response.json();
-      if (response.status === 401) 
-      {
+      if (response.status === 401) {
         handleUnauthorized();
         return;
       }
       if (response.ok) {
         setNotes(data);
-      }
+      } 
       else {
         console.log(data.message);
         setNotes([]);
@@ -97,14 +98,49 @@ const NoteState = (props) => {
       }
       console.log(data.message || data.errors);
       return false;
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error adding note:", error);
       return false;
     }
   };
 
-  useEffect(() => 
-  {
+  const editNote = async (id, title, description, tag) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/notes/updatenote/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({ title, description, tag }),
+        }
+      );
+      const data = await response.json();
+      if (response.status === 401) {
+        handleUnauthorized();
+        return false;
+      }
+      if (response.ok && data.note) {
+        // Local state mein update krdo — page reload ki zarurat nahi.
+        // sab notes ke sath compare krega and updates the correct one.
+        setNotes((prev) =>
+          prev.map((prevNote) => (prevNote._id === id ? data.note : prevNote))
+        );
+        return true;
+      }
+      console.log(data.message || data.errors);
+      return false;
+    } 
+    catch (error) {
+      console.error("Error updating note:", error);
+      return false;
+    }
+  };
+
+  useEffect(() => {
     if (isLoggedIn) {
       fetchAllNotes();
     } 
@@ -116,7 +152,7 @@ const NoteState = (props) => {
 
   return (
     <noteContext.Provider
-      value={{ notes, setNotes, fetchAllNotes, searchNotes, addNote }}
+      value={{ notes, setNotes, fetchAllNotes, searchNotes, addNote, editNote }}
     >
       {props.children}
     </noteContext.Provider>

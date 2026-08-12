@@ -1,10 +1,9 @@
-/* ========== App shell ========== */
+/* App.css contains styling for App component */
 .app-main {
   min-height: calc(100vh - 72px);
   padding-bottom: 2rem;
 }
 
-/* ========== Sticky navbar ========== */
 .ns-navbar {
   position: sticky;
   top: 0;
@@ -221,6 +220,37 @@
   font-weight: 700;
   border-radius: 999px;
   padding: 0.4em 0.85em;
+}
+
+.ns-btn-edit {
+  flex-shrink: 0;
+  background: transparent !important;
+  border: 1.5px solid rgba(15, 118, 110, 0.35) !important;
+  color: var(--ns-teal-dark) !important;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-radius: 999px !important;
+  padding: 0.3rem 0.85rem !important;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ns-btn-edit:hover {
+  background: var(--ns-teal-soft) !important;
+  border-color: var(--ns-teal) !important;
+  color: var(--ns-teal-dark) !important;
+}
+
+/* Edit modal above sticky navbar */
+.modal {
+  z-index: 1055;
+}
+
+.modal-backdrop {
+  z-index: 1050;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 /* ========== Hero / sections ========== */

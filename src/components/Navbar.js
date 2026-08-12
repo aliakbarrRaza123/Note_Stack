@@ -11,7 +11,7 @@ export default function Navbar() {
   const urlQ = new URLSearchParams(location.search).get("q") || "";
   const [q, setQ] = useState(urlQ);
 
-  // Browser back/forward ya URL change pe input sync rahe
+  // Url change hone par chalega 
   useEffect(() => {
     setQ(urlQ);
   }, [urlQ]);
@@ -21,12 +21,12 @@ export default function Navbar() {
     navigate("/");
   };
 
-  // Typing / clear — empty hone pe automatically saari notes wapas
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setQ(value);
-    // Search bar se text delete → URL se ?q= hatao → Home saari notes fetch karega
-    if (!value.trim()) {
+    // all the text clear from search bar so go to Home.
+    if (!value.trim()) 
+    {
       navigate("/");
     }
   };

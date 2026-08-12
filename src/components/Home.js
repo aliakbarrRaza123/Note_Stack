@@ -1,32 +1,49 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import noteContext from "../context/notes/NoteContext";
 import AuthContext from "../context/auth/authContext";
 import AddNote from "./AddNote";
+import EditNote from "./EditNote";
 
 export default function Home() {
   const { notes, fetchAllNotes, searchNotes } = useContext(noteContext);
   const { isLoggedIn } = useContext(AuthContext);
   const location = useLocation();
 
+  // kaunsa note edit ho raha hai.
+  const [editingNote, setEditingNote] = useState(null);
+  // edit open hai ya close.
+  const [showEdit, setShowEdit] = useState(false);
+
   const q = new URLSearchParams(location.search).get("q") || "";
 
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn) 
+      return;
     if (q.trim()) {
       searchNotes(q);
-    } else {
+    } 
+    else {
       fetchAllNotes();
     }
   }, [q, isLoggedIn, fetchAllNotes, searchNotes]);
+
+  const openEdit = (note) => {
+    setEditingNote(note);
+    setShowEdit(true);
+  };
+
+  const closeEdit = () => {
+    setShowEdit(false);
+    setEditingNote(null);
+  };
 
   // Logged-in: notes workspace (AddNote + list)
   if (isLoggedIn) {
     return (
       <div className="container ns-workspace">
         <AddNote />
-
-        {/* Your Notes Section */}
+        <EditNote note={editingNote} show={showEdit} onClose={closeEdit} />
         <section>
           <div className="text-center mb-4">
             <h2 className="ns-section-title">Your Notes</h2>
@@ -50,7 +67,17 @@ export default function Home() {
                 <div className="col-md-4" key={note._id}>
                   <div className="card ns-note-card border-0">
                     <div className="card-body">
-                      <h5 className="card-title fw-bold">{note.title}</h5>
+                      <div className="d-flex justify-content-between align-items-start gap-2 mb-2">
+                        <h5 className="card-title fw-bold mb-0">{note.title}</h5>
+                        <button
+                          type="button"
+                          className="btn ns-btn-edit"
+                          onClick={() => openEdit(note)}
+                          aria-label={`Edit ${note.title}`}
+                        >
+                          Edit
+                        </button>
+                      </div>
                       <p className="card-text text-muted">{note.description}</p>
                       <span className="badge ns-badge">{note.tag}</span>
                     </div>
