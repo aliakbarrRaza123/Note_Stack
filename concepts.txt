@@ -17,4 +17,24 @@ The React Context API is a built-in feature in the React library that allows you
 -  deleteNote()
 -  updateNote()
 
-NoteContext use hota hai in sab ko multiple components ke bheej me share krne ke liye without passing props.
+NoteContext use hota hai in sab ko multiple components ke bheech me share krne ke liye without passing props.
+
+
+<--------------------------------   Redux   --------------------------------------->
+1- Redux is a state management library for JavaScript applications.
+2- Its main purpose is to manage global states in one central place so that multiple 
+2- components can access and update the same data easily.
+3- It is similar to Context API but more structured and has more powerful tools.
+
+
+<--------------------------------   Redux Concepts  --------------------------------------->
+1- Store (The store holds the application's global state)
+2- State (State is the actual data stored in Redux)
+3- Action (An action describes what happened or what we want to do)
+4- Reducer (A reducer determines how the state should change when an action is dispatched)
+5- Dispatch (dispatch() is used to send an action to Redux)
+6- Selector (A selector is used to read data from the Redux store)
+
+
+<--------------------------------   Flow of Components  --------------------------------------->
+Component -> dispatch(action) -> Reducer -> Store updates -> Components get new state

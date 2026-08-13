@@ -13,14 +13,14 @@ function App() {
     <AuthState>
       <NoteState>
         <BrowserRouter>
-          <Navbar />
+          <Navbar/>
           <main className="app-main">
             <Routes>
               {/* Public: guests see app info; Home shows notes only after login */}
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/" element={<Home/>}/>
+              <Route path="/about" element={<About/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/signup" element={<Signup/>}/>
             </Routes>
           </main>
         </BrowserRouter>

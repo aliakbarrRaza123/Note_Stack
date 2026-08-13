@@ -60,7 +60,6 @@ export default function EditNote({ note, show, onClose })
 
   return (
     <>
-      {/* Backdrop — click se modal band */}
       <div
         className="modal-backdrop fade show"
         onClick={onClose}

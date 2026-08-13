@@ -53,6 +53,7 @@ router.post("/addnote", fetchuser,
         tag,
         user: req.user.id,  // unique
       });
+      // save the note in MongoDB.
       const savedNote = await note.save();
       res.json({
         success: true,
@@ -84,7 +85,7 @@ router.put('/updatenote/:id', fetchuser, async (req, res) =>
     if (description) newNote.description = description;
     if (tag) newNote.tag = tag;
     
-    // Find the note to be updated.
+    // Find the note from the id given in the url.
     let note = await Notes.findById(req.params.id);
     if (!note) 
     {
@@ -95,7 +96,7 @@ router.put('/updatenote/:id', fetchuser, async (req, res) =>
     }
     // jo update request kar raha agar ussi user ka note hai to allow karo
     if (note.user.toString() !== req.user.id) 
-      {
+    {
       return (res.status(401).json({
         success: false,
         message: "Not Allowed"
@@ -105,6 +106,7 @@ router.put('/updatenote/:id', fetchuser, async (req, res) =>
     note = await Notes.findByIdAndUpdate(
       req.params.id,
       { $set: newNote },
+      // used to give updated note to the frontend.
       { new: true }
     );
     res.json({

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AuthContext from "./authContext";
 
 const AuthState = (props) => {
-  // token state — source of truth for login status across the app
+  // token state — to verify the login status of the user across the app.
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   const login = (newToken) => {

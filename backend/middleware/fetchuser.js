@@ -18,7 +18,6 @@ const fetchuser = async (req, res, next) => {
   {
     // verify method returns payload.
     const data = jwt.verify(token, JWT_SECRET);
-    // User must still exist in DB (handles manual delete / account removal).
     const user = await User.findById(data.user.id).select("_id");
     if(!user) 
     {

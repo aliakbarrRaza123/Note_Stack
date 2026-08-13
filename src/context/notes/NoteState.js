@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import noteContext from "./NoteContext";
 import AuthContext from "../auth/authContext";
 
+// note state - used to update the state of note.
 const NoteState = (props) => {
   const [notes, setNotes] = useState([]);
   const { isLoggedIn, logout } = useContext(AuthContext);
@@ -30,7 +31,8 @@ const NoteState = (props) => {
       }
       if (response.ok) {
         setNotes(data);
-      } else {
+      } 
+      else {
         console.log(data.message);
         setNotes([]);
       }
@@ -47,7 +49,6 @@ const NoteState = (props) => {
       const url = `http://localhost:5000/api/notes/searchnotes?q=${encodeURIComponent(
         query
       )}`;
-
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -140,6 +141,37 @@ const NoteState = (props) => {
     }
   };
 
+  const deleteNote = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/notes/deletenote/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.status === 401) {
+        handleUnauthorized();
+        return false;
+      }
+      if (response.ok) {
+        // condition satisfy krne wale notes rakhte hain baqi filter out.
+        setNotes((prev) => prev.filter((n) => n._id !== id));
+        return true;
+      }
+      console.log(data.message || data.errors);
+      return false;
+    } 
+    catch (error) {
+      console.error("Error deleting note:", error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     if (isLoggedIn) {
       fetchAllNotes();
@@ -152,7 +184,15 @@ const NoteState = (props) => {
 
   return (
     <noteContext.Provider
-      value={{ notes, setNotes, fetchAllNotes, searchNotes, addNote, editNote }}
+      value={{
+        notes,
+        setNotes,
+        fetchAllNotes,
+        searchNotes,
+        addNote,
+        editNote,
+        deleteNote,
+      }}
     >
       {props.children}
     </noteContext.Provider>

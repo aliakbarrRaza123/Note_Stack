@@ -6,13 +6,13 @@ import AddNote from "./AddNote";
 import EditNote from "./EditNote";
 
 export default function Home() {
-  const { notes, fetchAllNotes, searchNotes } = useContext(noteContext);
+  const { notes, fetchAllNotes, searchNotes, deleteNote } = useContext(noteContext);
   const { isLoggedIn } = useContext(AuthContext);
   const location = useLocation();
 
   // kaunsa note edit ho raha hai.
   const [editingNote, setEditingNote] = useState(null);
-  // edit open hai ya close.
+  // edit modal open hai ya close.
   const [showEdit, setShowEdit] = useState(false);
 
   const q = new URLSearchParams(location.search).get("q") || "";
@@ -38,7 +38,19 @@ export default function Home() {
     setEditingNote(null);
   };
 
-  // Logged-in: notes workspace (AddNote + list)
+  // Confirm ke baad delete — galti se delete na ho
+  const handleDelete = async (note) => {
+    const ok = window.confirm(
+      `Delete "${note.title}"? This cannot be undone.`
+    );
+    if (!ok) return;
+    const deleted = await deleteNote(note._id);
+    if (!deleted) {
+      alert("Could not delete note. Please try again.");
+    }
+  };
+
+  // Logged-in users view 
   if (isLoggedIn) {
     return (
       <div className="container ns-workspace">
@@ -69,14 +81,24 @@ export default function Home() {
                     <div className="card-body">
                       <div className="d-flex justify-content-between align-items-start gap-2 mb-2">
                         <h5 className="card-title fw-bold mb-0">{note.title}</h5>
-                        <button
-                          type="button"
-                          className="btn ns-btn-edit"
-                          onClick={() => openEdit(note)}
-                          aria-label={`Edit ${note.title}`}
-                        >
-                          Edit
-                        </button>
+                        <div className="d-flex gap-2 flex-shrink-0">
+                          <button
+                            type="button"
+                            className="btn ns-btn-edit"
+                            onClick={() => openEdit(note)}
+                            aria-label={`Edit ${note.title}`}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            className="btn ns-btn-delete"
+                            onClick={() => handleDelete(note)}
+                            aria-label={`Delete ${note.title}`}
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                       <p className="card-text text-muted">{note.description}</p>
                       <span className="badge ns-badge">{note.tag}</span>
