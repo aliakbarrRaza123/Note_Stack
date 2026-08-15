@@ -4,28 +4,34 @@ import About from "./components/About";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+// import ForgotPassword from "./components/ForgotPassword";
+// import ResetPassword from "./components/ResetPassword";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NoteState from "./context/notes/NoteState";
+import NoteState from "./context/notes/noteState";
 import AuthState from "./context/auth/authState";
+import ThemeState from "./context/theme/themeState";
 
 function App() {
   return (
-    <AuthState>
-      <NoteState>
-        <BrowserRouter>
-          <Navbar/>
-          <main className="app-main">
-            <Routes>
-              {/* Public: guests see app info; Home shows notes only after login */}
-              <Route path="/" element={<Home/>}/>
-              <Route path="/about" element={<About/>}/>
-              <Route path="/login" element={<Login/>}/>
-              <Route path="/signup" element={<Signup/>}/>
-            </Routes>
-          </main>
-        </BrowserRouter>
-      </NoteState>
-    </AuthState>
+    <ThemeState>
+      <AuthState>
+        <NoteState>
+          <BrowserRouter>
+            <Navbar />
+            <main className="app-main">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                {/* <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/resetpassword/:token" element={<ResetPassword />} /> */}
+              </Routes>
+            </main>
+          </BrowserRouter>
+        </NoteState>
+      </AuthState>
+    </ThemeState>
   );
 }
 

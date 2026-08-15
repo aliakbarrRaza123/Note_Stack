@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link, Navigate } from "react-router-dom";
 import AuthContext from "../context/auth/authContext";
+import API_BASE_URL from "../utils/api";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -30,8 +31,7 @@ export default function Signup() {
       return;
     }
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/auth/createuser",
+      const response = await fetch(`${API_BASE_URL}/api/auth/createuser`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

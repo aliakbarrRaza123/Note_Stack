@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // kahiin or deploy krna hoga to sirf connection string change krdenge.
-const mongoURI = "mongodb://localhost:27017/Note_Stack";
+const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/Note_Stack";
 
 const connectToMongo = () => 
 {

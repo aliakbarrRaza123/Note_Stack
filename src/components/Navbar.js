@@ -1,11 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import AuthContext from "../context/auth/authContext";
+import ThemeContext from "../context/theme/themeContext";
+
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isLoggedIn, logout } = useContext(AuthContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   // URL se current search query lo (Home isi pe notes filter karta hai)
   const urlQ = new URLSearchParams(location.search).get("q") || "";
@@ -107,6 +110,14 @@ export default function Navbar() {
           )}
 
           <div className="d-flex gap-2">
+            <button
+              className="btn ns-btn-ghost"
+              onClick={toggleTheme}
+              aria-label="Toggle dark mode"
+              title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+            >
+              {theme === "light" ? "🌙" : "☀️"}
+            </button>
             {isLoggedIn ? (
               <button className="btn ns-btn-ghost" onClick={handleLogout}>
                 Logout

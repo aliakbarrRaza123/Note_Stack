@@ -61,3 +61,77 @@ h3,
 .text-muted {
   color: var(--ns-muted) !important;
 }
+[data-theme="dark"] {
+  --ns-ink: #e7edf1;
+  --ns-muted: #a7b4bd;
+  --ns-bg: #0f1720;
+  --ns-surface: #16212b;
+  --ns-line: rgba(255, 255, 255, 0.1);
+  --ns-teal: #14b8a6;
+  --ns-teal-dark: #0d9488;
+  --ns-teal-soft: rgba(20, 184, 166, 0.15);
+  --ns-coral: #f28c6a;
+  --ns-coral-dark: #e8734a;
+  --ns-sky: rgba(232, 241, 248, 0.06);
+  --ns-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  --ns-shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(20, 184, 166, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 45% at 100% 0%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    linear-gradient(180deg, #0f1720 0%, #0f1720 40%, #0b1017 100%);
+  background-attachment: fixed;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .ns-form-control,
+[data-theme="dark"] .form-select {
+  background: var(--ns-surface) !important;
+  color: var(--ns-ink) !important;
+  border-color: var(--ns-line) !important;
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  background: var(--ns-surface) !important;
+  color: var(--ns-ink) !important;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: var(--ns-muted) !important;
+  opacity: 1;
+}
+
+[data-theme="dark"] .ns-search-input {
+  background: var(--ns-surface) !important;
+  border: 1px solid var(--ns-line) !important;
+  color: var(--ns-ink) !important;
+}
+
+[data-theme="dark"] .ns-search-input::placeholder {
+  color: var(--ns-muted) !important;
+}
+
+/* Home page ka "What you can do" section — hardcoded light gradient bg tha,
+   dark mode mein wahan bhi text invisible ho jata tha */
+[data-theme="dark"] .ns-section-alt {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%) !important;
+}
+
+/* Secondary button ka border light-mode ke liye fix tha, dark bg pe barely nazar aata */
+[data-theme="dark"] .ns-btn-secondary {
+  border-color: var(--ns-line) !important;
+  color: var(--ns-ink) !important;
+}
+
+[data-theme="dark"] .ns-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Bootstrap ke close (X) button dark bg pe invisible hota hai — invert karo */
+[data-theme="dark"] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}

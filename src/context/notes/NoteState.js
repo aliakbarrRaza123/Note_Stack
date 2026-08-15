@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import noteContext from "./NoteContext";
+import noteContext from "./noteContext";
 import AuthContext from "../auth/authContext";
+import API_BASE_URL from "../../utils/api";
 
 // note state - used to update the state of note.
 const NoteState = (props) => {
@@ -14,8 +15,7 @@ const NoteState = (props) => {
 
   const fetchAllNotes = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/notes/fetchallnotes",
+      const response = await fetch(`${API_BASE_URL}/api/notes/fetchallnotes`,
         {
           method: "GET",
           headers: {
@@ -46,9 +46,7 @@ const NoteState = (props) => {
   const searchNotes = async (q) => {
     const query = (q || "").toString();
     try {
-      const url = `http://localhost:5000/api/notes/searchnotes?q=${encodeURIComponent(
-        query
-      )}`;
+      const url = `${API_BASE_URL}/api/notes/searchnotes?q=${encodeURIComponent(query)}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -77,8 +75,7 @@ const NoteState = (props) => {
 
   const addNote = async (title, description, tag) => {
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/notes/addnote",
+      const response = await fetch(`${API_BASE_URL}/api/notes/addnote`,
         {
           method: "POST",
           headers: {
@@ -108,8 +105,7 @@ const NoteState = (props) => {
 
   const editNote = async (id, title, description, tag) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/notes/updatenote/${id}`,
+      const response = await fetch(`${API_BASE_URL}/api/notes/updatenote/${id}`,
         {
           method: "PUT",
           headers: {
@@ -143,8 +139,7 @@ const NoteState = (props) => {
 
   const deleteNote = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/notes/deletenote/${id}`,
+      const response = await fetch(`${API_BASE_URL}/api/notes/deletenote/${id}`,
         {
           method: "DELETE",
           headers: {

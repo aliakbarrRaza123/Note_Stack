@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import noteContext from "../context/notes/NoteContext";
+import noteContext from "../context/notes/noteContext";
 import AuthContext from "../context/auth/authContext";
 import AddNote from "./AddNote";
 import EditNote from "./EditNote";
