@@ -4,8 +4,8 @@ import About from "./components/About";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-// import ForgotPassword from "./components/ForgotPassword";
-// import ResetPassword from "./components/ResetPassword";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NoteState from "./context/notes/noteState";
 import AuthState from "./context/auth/authState";
@@ -24,8 +24,8 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                {/* <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route path="/resetpassword/:token" element={<ResetPassword />} /> */}
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/resetpassword/:token" element={<ResetPassword />} />
               </Routes>
             </main>
           </BrowserRouter>

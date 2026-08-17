@@ -6,6 +6,8 @@ const {body, validationResult} = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("../middleware/fetchuser");
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
 
 
 // jwt secret key is used to verify that user is same as at the time of signup. 
@@ -172,5 +174,103 @@ router.post("/getuser", fetchuser, async (req, res) =>
     });
   }
 });
+
+// ROUTE 4 : Request a password reset link -> POST "/api/auth/forgotpassword"
+// No login required.
+router.post("/forgotpassword",
+  [body("email", "Enter a valid email").isEmail()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, 
+        message: "Validation failed", 
+        errors: errors.array() 
+      });
+    }
+    try {
+      const user = await User.findOne({ email: req.body.email });
+      // Security: chahe user mile ya na mile, hamesha same generic message do
+      // taake koi ye pata na laga sake ke kaunsa email registered hai.
+      const genericResponse = {
+        success: true,
+        message: "If that email is registered, a reset link has been sent.",
+      };
+      if (!user) {
+        return res.json(genericResponse);
+      }
+      // Raw token generate karo (ye user ko email mein jayega)
+      const rawToken = crypto.randomBytes(32).toString("hex");
+      // DB mein sirf hashed version store karo (raw token kabhi DB mein na rakho)
+      const hashedToken = crypto.createHash("sha256").update(rawToken).digest("hex");
+
+      user.resetPasswordToken = hashedToken;
+      user.resetPasswordExpire = Date.now() + 30 * 60 * 1000; // 30 minutes
+      await user.save();
+
+      const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+      const resetLink = `${frontendUrl}/resetpassword/${rawToken}`;
+      // user ko reset link provide krdega through email.
+      await sendEmail({
+        to: user.email,
+        subject: "Note_Stack — Password Reset",
+        html: `<p>Aap ne password reset request kiya hai. Ye link 30 minutes ke liye valid hai:</p>
+               <p><a href="${resetLink}">${resetLink}</a></p>
+               <p>Agar aap ne ye request nahi ki, is email ko ignore kar dein.</p>`,
+        // agar kisi waja se actual email send na ho to ye alternate bhejdena.
+        devFallbackText: resetLink,
+      });
+      return res.json(genericResponse);
+    } 
+    catch (error) {
+      console.error(error);
+      return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+  }
+);
+
+// ROUTE 5 : Reset password using token -> POST "/api/auth/resetpassword/:token"
+// No login required.
+router.post("/resetpassword/:token",
+  [body("password", "Password must be at least 5 characters").isLength({ min: 5 })],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, 
+        message: "Validation failed", 
+        errors: errors.array() });
+    }
+    try {
+      // Incoming raw token ko hash karo aur DB ke hashed token se compare karo
+      const hashedToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+      
+      const user = await User.findOne({
+        resetPasswordToken: hashedToken,
+        resetPasswordExpire: { $gt: Date.now() }, // expire nahi hona chahiye
+      });
+      if (!user) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Reset link is invalid or has expired" 
+        });
+      }
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(req.body.password, salt);
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      await user.save();
+      return res.json({ 
+        success: true, 
+        message: "Password updated successfully. Please log in."
+      });
+    } 
+    catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        success: false, 
+        message: "Internal Server Error" 
+      });
+    }
+  }
+);
 
 module.exports = router;

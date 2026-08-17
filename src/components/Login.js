@@ -76,6 +76,9 @@ export default function Login() {
               onChange={onChange}
               required
             />
+            <div className="text-end mt-1">
+              <Link to="/forgotpassword" className="small">Forgot password?</Link>
+            </div>
           </div>
           <button type="submit" className="btn ns-btn-primary w-100">
             Login
